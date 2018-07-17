@@ -22,19 +22,31 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home
+      component: Home ,
+      meta: {
+        keepAlive: true // 需要被缓存
+      }
     },{
       path: '/list',
       name: 'List',
-      component: List
+      component: List,
+      meta: {
+        keepAlive: true // 需要被缓存
+      }
     },{
       path: '/detail',
       name: 'Detail',
-      component: Detail
+      component: Detail,
+      meta: {
+        keepAlive: false // 不需要被缓存
+      }
     },{
       path: '/person',
       name: 'Person',
-      component: Person
+      component: Person,
+      meta: {
+        keepAlive: true // 需要被缓存
+      }
     },
   ]
 })

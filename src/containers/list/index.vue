@@ -1,6 +1,3 @@
-
-
-
 <template>
   <ul class="list-page">
     <li v-for="item in list" :key="item.id" :id="item.id" @click="goDetail">{{item.name}}</li>
@@ -8,34 +5,39 @@
 </template>
 
 <script>
+  import axios from 'axios'
+
   export default {
     name: 'List',
     data() {
       return {
-        list: [
-          {id:1,name:'苹果'},
-          {id:2,name:'香蕉'},
-          {id:3,name:'梨子'},
-          {id:4,name:'菠萝'},
-          {id:5,name:'哈密瓜'},
-        ]
+        list: []
       }
     },
-    methods:{
-      goDetail(e){
-        const id=e.currentTarget.getAttribute("id");
-        const name=e.currentTarget.innerText;
+    methods: {
+      //定义页面跳转函数
+      goDetail(e) {
+        const id = e.currentTarget.getAttribute("id");
+        const name = e.currentTarget.innerText;
         this.$router.push({
-         /* 注意：如果使用query传递参数的话要注意以下三点
-         *  1.query一定要和页面组件的path值搭配
-         *  2.在route路由中无需提前定义好参数
-         *  3.在detail页面接收参数通过this.$route.query.形式
-         */
-          path:'detail',
-          query:{id:id, name:name}
+          path: 'detail',
+          query: {id: id, name: name}
         })
-      }
-    }
+      },
+      //定义获取数据函数
+      getData() {
+        axios.get('/api/index.json').then((res) => {
+          if (res.status == 200) {
+            this.list = res.data.data.list;
+          }
+        }).catch((error) => {
+          console.log(error);
+        })
+      },
+    },
+    mounted() {
+      this.getData();//调用获取数据函数
+    },
   }
 </script>
 
@@ -51,6 +53,5 @@
       padding-left 0.2rem
 
 </style>
-
 
 
